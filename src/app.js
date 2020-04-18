@@ -7,6 +7,8 @@ const forecast = require('./utils/forecast')
 
 const app = express()
 
+const port = process.env.PORT || 3000
+
 //define paths for express config
 const publicDirPath = path.join(__dirname, '../public')
 const viewsPath = path.join(__dirname, '../templates/views')
@@ -52,11 +54,11 @@ app.get('/weather', ({ query }, res) => {
     }
     geocode(query.address, (error, { latitude, longitude, location } = {}) => {
         if (error)
-          return  res.send({ error })
+            return res.send({ error })
 
         forecast(latitude, longitude, (error, { forecast } = {}) => {
             if (error)
-              return  res.send({ error })
+                return res.send({ error })
 
             res.send({
                 forecast: forecast,
@@ -83,6 +85,6 @@ app.get('*', (req, res) => {
     })
 })
 
-app.listen(3000, () => {
-    console.log('Server Start on port 3000')
+app.listen(port, () => {
+    console.log('Server Start on port ' + port)
 })
